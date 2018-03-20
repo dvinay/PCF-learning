@@ -25,14 +25,16 @@ public class WelcomeController {
 	- create PCF free account using [link](https://account.run.pivotal.io/z/uaa/sign-up)
 	- Login to cf cloud using command line, it will ask email and password for ur pcf account
 ```
-	cf login -a https://api.run.pivotal.io
+cf login -a https://api.run.pivotal.io
 ```
 - Steps to deploy code to pcf
 	- run gradle build from intellij IDE or run ./gradlew clean build in the project folder
 	- push your code to pcf by using cf push command
 ```
-	cf push basedemo -p build/libs/basedemo-0.0.1-SNAPSHOT.jar --random-route
+cf push basedemo -p build/libs/basedemo-0.0.1-SNAPSHOT.jar --random-route
 ```
-	- after you push your project, it will give random url for access your application
+
+	- after you push your project, it will give random route url for access your application
 	- go and access the url; should display same result as our local system
+ [commit changes](https://github.com/dvinay/PCF-learning/commit/e150764c52dcb19775055d0104ae8906bef76435)
 
