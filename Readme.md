@@ -38,3 +38,68 @@ cf push basedemo -p build/libs/basedemo-0.0.1-SNAPSHOT.jar --random-route
 	- go and access the url; should display same result as our local system
  [commit changes](https://github.com/dvinay/PCF-learning/commit/e150764c52dcb19775055d0104ae8906bef76435)
 
+- Design and development rules for developing Service oriented application [link](https://12factor.net/)
+
+### Configure application depending on env properties ###
+- While developing cloud based application, sometimes we need to depend on the env configuration. These configurations will useful to make application work in different env with same functionality
+- In springboot, by using @Value("${WELCOME_MESSAGE:DEFAULT_VALUE}") expression to fetch env variables
+- PCF provides come set of env properties like PORT, DATABASE_URL etc [link](http://docs.run.pivotal.io/devguide/deploy-apps/environment-variable.html)
+
+### Ways to configure env variables ###
+1. Configuring env variables while deploying/running application
+	- If we want to configure WELCOME_MESSAGE env variable while running application, add the variable at running time
+``` 
+$WELCOME_MESSAGE=hello ./gradlew bootRun 
+```
+
+2. Configuring env variable in build management configuration files like pom.xml or build.gradle
+	- If we want configure WELCOME_MESSAGE env variable for different env like test or stg
+```
+bootRun.environment([
+ "WELCOME_MESSAGE": "hello",
+])
+
+test.environment([
+    "WELCOME_MESSAGE": "Hello from test",
+])
+```
+
+3. Configuring env variable in application properties configuration files like application.properties or application.yaml
+```
+WELCOME_MESSAGE=from application properties
+```
+
+4. Configuring custom env variable in PCF by using set-env command
+```
+$ cf set-env application_name WELCOME_MESSAGE "Hello from Cloud Foundry"
+```
+
+- Note:
+	- use first approaches if your application want change application behaviour on different env
+	- use second and third approaches if your application want depend on application, this is not preferable for saving security properties like JWT key or passwords
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
