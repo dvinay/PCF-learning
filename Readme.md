@@ -129,7 +129,7 @@ applications:
   env:
     WELCOME_MESSAGE: Hello from Cloud Foundry
 ```
-
+- use cf push basedemo to deploy code into pcf env.
 
 
 
