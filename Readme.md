@@ -33,10 +33,23 @@ cf login -a https://api.run.pivotal.io
 ```
 cf push basedemo -p build/libs/basedemo-0.0.1-SNAPSHOT.jar --random-route
 ```
-
 	- after you push your project, it will give random route url for access your application
 	- go and access the url; should display same result as our local system
  [commit changes](https://github.com/dvinay/PCF-learning/commit/e150764c52dcb19775055d0104ae8906bef76435)
+
+- Note
+ 	- If code hasn't run due to error, you can check the logs by using 
+```
+ cf logs --recent basedemo
+```
+	- If code hasn't run due to error, and want to restage it.
+```
+cf restage basedemo
+```	
+	- If you want to check the pcf application health and metrics status
+```
+cf app basedemo
+```	
 
 - Design and development rules for developing Service oriented application [link](https://12factor.net/)
 
@@ -78,22 +91,44 @@ $ cf set-env application_name WELCOME_MESSAGE "Hello from Cloud Foundry"
 	- use first approaches if your application want change application behaviour on different env
 	- use second and third approaches if your application want depend on application, this is not preferable for saving security properties like JWT key or passwords
 
+### How to scale a pcf application ###
+- While your application in production, you may need to support high load. To support highload; we have to approaches to resolve the high load traffic
+	- Vertical scaling: Each app instance has more memory or disk space. (Single application with more memory)
+	- Horizontal scaling: There are more app instances serving requests. (distribution of application)
 
+- Vertical scaling:
+	- check the current application status and memory by using app command
+```
+cf app basedemo
+```
+	- use -m option with scale command to change memory allocated to the application
+```
+cf scale basedemo -m 768M -f
+```
+	- after running above command, wait for application to restart; you will see the max memory allocated for application will change to 768M
 
+- Horizontal scaling:
+	- check the current application status and memory by using app command
+```
+cf app basedemo
+```
+	- use -i option with scale command to change number of instances to the application
+```
+cf scale pal-tracker -i 2
+```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+### How to configure application deployment as a code ###
+- instead of deploying application with options like env variable and other stuff, we can use deployement as configuration
+- create manifest.yml file in the application root folder like
+```
+---
+applications:
+- name: basedemo
+  path: build/libs/basedemo-0.0.1-SNAPSHOT.jar
+  random-route: true
+  env:
+    WELCOME_MESSAGE: Hello from Cloud Foundry
+```
 
 
 

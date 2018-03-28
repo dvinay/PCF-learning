@@ -1,0 +1,7 @@
+---
+applications:
+- name: basedemo
+  path: build/libs/basedemo-0.0.1-SNAPSHOT.jar
+  random-route: true
+  env:
+    WELCOME_MESSAGE: Hello from Cloud Foundry
