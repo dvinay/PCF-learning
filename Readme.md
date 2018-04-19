@@ -38,23 +38,24 @@ cf push basedemo -p build/libs/basedemo-0.0.1-SNAPSHOT.jar --random-route
  [commit changes](https://github.com/dvinay/PCF-learning/commit/e150764c52dcb19775055d0104ae8906bef76435)
 
 - Note
- 	- If code hasn't run due to error, you can check the logs by using 
+1) If code hasn't run due to error, you can check the logs by using 
 ```
  cf logs --recent basedemo
 ```
-	- If code hasn't run due to error, and want to restage it.
+2) If code hasn't run due to error, and want to restage it.
 ```
 cf restage basedemo
 ```	
-	- If you want to check the pcf application health and metrics status
+3) If you want to check the pcf application health and metrics status
 ```
 cf app basedemo
 ```	
 
+### Best Desing rules for Micro Services ###
 - Design and development rules for developing Service oriented application [link](https://12factor.net/)
 
 ### Configure application depending on env properties ###
-- While developing cloud based application, sometimes we need to depend on the env configuration. These configurations will useful to make application work in different env with same functionality
+- While developing cloud based application, sometimes we need to depend on the env configuration. These configurations will useful to make application work in different env with same functionality.
 - In springboot, by using @Value("${WELCOME_MESSAGE:DEFAULT_VALUE}") expression to fetch env variables
 - PCF provides come set of env properties like PORT, DATABASE_URL etc [link](http://docs.run.pivotal.io/devguide/deploy-apps/environment-variable.html)
 
@@ -130,6 +131,23 @@ applications:
     WELCOME_MESSAGE: Hello from Cloud Foundry
 ```
 - use cf push basedemo to deploy code into pcf env.
+
+### How to configure Routes for an app ###
+- All requests to apps that are running on Cloud Foundry go through a router which holds a mapping between the route and an app
+- You can map multiple urls to an app
+```
+cf map-route basedemo ${DOMAIN} --hostname basedemo-${INITIALS}-dev
+```
+- To check all the domains supported by PCF account 
+```
+cf domains
+```
+- To unmap a router to an app by using unmap-route command
+```
+cf unmap-route pal-tracker ${DOMAIN} --hostname pal-tracker-${INITIALS}-dev
+```
+- Note: Apps can have multiple routes bound to them which can be useful for a blue-green deployment strategy.
+[link](https://martinfowler.com/bliki/BlueGreenDeployment.html)
 
 
 
